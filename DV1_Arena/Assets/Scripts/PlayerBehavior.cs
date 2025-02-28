@@ -32,6 +32,7 @@ public class PlayerBehavior : MonoBehaviour
     //create flags for jump & shoot functions
     private bool jump = false; 
     private bool shoot = false;
+    private GameBehavior _gameManager;
     void Start()
     {
         //checks if Rigidbody exists on the GameObject the script is attached to
@@ -39,6 +40,7 @@ public class PlayerBehavior : MonoBehaviour
 
         //GetComponent() finds and returns the CapsuleCollider attached to the player
         _col = GetComponent<CapsuleCollider>();
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameBehavior>();
     }
     void Update()
     {
@@ -132,5 +134,13 @@ public class PlayerBehavior : MonoBehaviour
 
             return grounded;
     }
-        
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.name == "Enemy")
+        {
+            _gameManager.HP -= 1; 
+        }    
+    }
+
 }
